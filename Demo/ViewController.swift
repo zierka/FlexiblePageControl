@@ -29,7 +29,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         
         pageControl1.center = CGPoint(x: scrollView.center.x, y: scrollView.frame.maxY + 16)
         pageControl1.numberOfPages = numberOfPage
-
+        
         pageControl2.numberOfPages = numberOfPage
 
         for index in  0..<numberOfPage {
@@ -38,6 +38,11 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             view.image = UIImage(named: imageNamed as String)
             scrollView.addSubview(view)
         }
+
+        let startPage = 8 // start _not_ with the first page
+        scrollView.contentOffset = CGPoint(x: CGFloat(startPage) * scrollSize, y: 0)
+        pageControl1.currentPage = startPage
+        pageControl2.currentPage = startPage
 
         view.addSubview(scrollView)
         view.addSubview(pageControl1)

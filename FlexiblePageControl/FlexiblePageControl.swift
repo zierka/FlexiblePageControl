@@ -150,10 +150,10 @@ public class FlexiblePageControl: UIView {
         addSubview(scrollView)
     }
 
-    private func update() {
+    private func update(_ startIndex:Int=0) {
 
         var items:[ItemView] = []
-        for index in -2..<(displayCount+2) {
+        for index in startIndex-2..<startIndex+(displayCount+2) {
             let item = ItemView(itemSize: itemSize, dotSize: dotSize, index: index)
             items.append(item)
         }
@@ -185,6 +185,16 @@ public class FlexiblePageControl: UIView {
 
     private func setCurrentPage(currentPage: Int, animated: Bool) {
 
+        let start = max(0, currentPage - displayCount/2 - 1)
+        if let firstIndex = items.first?.index,
+            currentPage < firstIndex+2 {
+            update(start)
+        }
+        else if let lastIndex = items.last?.index,
+            currentPage > lastIndex-2 {
+            update(start)
+        }
+        
         updateDotColor(currentPage: currentPage)
         
         if canScroll {
@@ -218,7 +228,8 @@ public class FlexiblePageControl: UIView {
             moveScrollViewView(x: x, duration: duration)
         }
         else if CGFloat(currentPage) * itemSize + itemSize >= scrollView.contentOffset.x + scrollView.bounds.width - itemSize {
-            let x = scrollView.contentOffset.x + itemSize
+//            let x = scrollView.contentOffset.x + itemSize
+            let x = CGFloat(currentPage) * itemSize - scrollView.contentInset.left
             moveScrollViewView(x: x, duration: duration)
         }
     }
