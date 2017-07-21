@@ -185,14 +185,16 @@ public class FlexiblePageControl: UIView {
 
     private func setCurrentPage(currentPage: Int, animated: Bool) {
 
-        let start = max(0, currentPage - displayCount/2 - 1)
-        if let firstIndex = items.first?.index,
-            currentPage < firstIndex+2 {
-            update(start)
-        }
-        else if let lastIndex = items.last?.index,
-            currentPage > lastIndex-2 {
-            update(start)
+        if displayCount > 2 {
+            let start = max(0, currentPage - displayCount/2 - 1)
+            if let firstIndex = items.first?.index,
+                currentPage < firstIndex+2 {
+                update(start)
+            }
+            else if let lastIndex = items.last?.index,
+                currentPage > lastIndex-2 {
+                update(start)
+            }
         }
         
         updateDotColor(currentPage: currentPage)
