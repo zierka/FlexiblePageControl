@@ -206,6 +206,11 @@ public class FlexiblePageControl: UIView {
     }
     
     private func updateDotColor(currentPage: Int) {
+
+        //check if there are items - prevent crash
+        guard items.count > 0 else {
+            return
+        }
      
         for index in 0..<(displayCount + 4) {
             let pageIndex = items[index].index
