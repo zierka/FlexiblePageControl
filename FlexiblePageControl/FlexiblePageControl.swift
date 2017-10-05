@@ -235,8 +235,8 @@ public class FlexiblePageControl: UIView {
             moveScrollViewView(x: x, duration: duration)
         }
         else if CGFloat(currentPage) * itemSize + itemSize >= scrollView.contentOffset.x + scrollView.bounds.width - itemSize {
-//            let x = scrollView.contentOffset.x + itemSize
-            let x = CGFloat(currentPage) * itemSize - scrollView.contentInset.left
+            let x = scrollView.contentOffset.x + itemSize // we use this because the movement is better
+//            let x = CGFloat(currentPage) * itemSize - scrollView.contentInset.left
             moveScrollViewView(x: x, duration: duration)
         }
     }
