@@ -106,7 +106,7 @@ public class FlexiblePageControl: UIView {
 
         super.layoutSubviews()
         
-        scrollView.center = CGPoint(x: bounds.width/2, y: bounds.height/2)
+        updateScrollViewOrigin()
     }
 
     public override var intrinsicContentSize: CGSize {
@@ -174,6 +174,8 @@ public class FlexiblePageControl: UIView {
 
         scrollView.frame = frame
 
+        updateScrollViewOrigin()
+        
         if displayCount < numberOfPages {
             scrollView.contentInset = UIEdgeInsets(top: 0, left: itemSize * 2, bottom: 0, right: itemSize * 2)
         } else {
@@ -182,7 +184,11 @@ public class FlexiblePageControl: UIView {
 
         setCurrentPage(currentPage: currentPage, animated: false)
     }
-
+    
+    private func updateScrollViewOrigin() {
+        scrollView.center = CGPoint(x: bounds.width/2, y: bounds.height/2)
+    }
+    
     private func setCurrentPage(currentPage: Int, animated: Bool) {
 
         if displayCount > 2 {
