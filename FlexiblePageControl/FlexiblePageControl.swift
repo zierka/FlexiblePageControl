@@ -26,6 +26,12 @@ public class FlexiblePageControl: UIView {
 
     public var currentPage: Int = 0 {
         didSet {
+            guard numberOfPages != oldValue else { return }
+            
+            if currentPage > numberOfPages - 1 {
+                currentPage = numberOfPages - 1
+            }
+            
             scrollView.layer.removeAllAnimations()
             setCurrentPage(currentPage: currentPage, animated: true)
         }
@@ -33,14 +39,23 @@ public class FlexiblePageControl: UIView {
 
     public var numberOfPages: Int = 0 {
         didSet {
+            guard numberOfPages != oldValue else { return }
+            
+            if numberOfPages > 0, currentPage > numberOfPages - 1 {
+                currentPage = numberOfPages - 1
+            }
+            
             scrollView.isHidden = (numberOfPages <= 1 && hidesForSinglePage)
-            displayCount = min(displayCount, numberOfPages)
+            displayCount = min(initialDisplayCount, numberOfPages)
         }
     }
 
     // Recommended displayCount is 5 or more.
-
-    public var displayCount: Int = 7 {
+    
+    /// set this right after initialization
+    public var initialDisplayCount: Int = 7
+    
+    private var displayCount: Int = 7 {
         didSet {
             canScroll = (numberOfPages > displayCount)
             update()
@@ -49,12 +64,16 @@ public class FlexiblePageControl: UIView {
 
     public var dotSize: CGFloat = 6 {
         didSet {
+            guard dotSize != oldValue else { return }
+            
             update()
         }
     }
 
     public var dotSpace: CGFloat = 4 {
         didSet {
+            guard dotSpace != oldValue else { return }
+            
             update()
         }
     }
